@@ -1,0 +1,298 @@
+<html>
+<head>
+<style>
+
+#background {
+  background: url(pics/background3.JPG);
+  background-repeat: no-repeat;
+  height: 550px;
+  width: 550px;
+  position:  absolute;
+}
+#pro {
+  background: #33ff39; 
+  height: 20px;
+  width: 20px;
+  position: absolute;
+}
+.enemy {
+  background: url(pics/enemy.jpg);
+  height: 40px;
+  width: 40px;
+  position: absolute;
+}
+#score {
+  background: #33ff39;
+  font-size: 20pt;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  visibility: visible;
+}
+#gameover {
+  background: url(pics/GameOver.jpg);
+  font-size: 60pt;
+  position: absolute;
+  left: 10px;
+  top: 200px;
+  visibility: hidden;
+  color: black;
+}
+#button {
+  background: #33ff39; 
+  font-size: 30pt;
+  display: flex;
+  left: 200px;
+  top: 550px;
+  position: absolute;
+}
+#buttonGary {
+  background: #33ff39; 
+  font-size: 30pt;
+  display: flex;
+  left: 10px;
+  top: 520px;
+  position: absolute;
+}
+#buttonCurt {
+  background: #33ff39; 
+  font-size: 30pt;
+  display: flex;
+  left: 100px;
+  top: 520px;
+  position: absolute;
+}
+#buttonMohan {
+  background: #33ff39; 
+  font-size: 30pt;
+  display: flex;
+  left: 190px;
+  top: 520px;
+  position: absolute;
+}
+#buttonCao {
+  background: #33ff39; 
+  font-size: 30pt;
+  display: flex;
+  left: 280px;
+  top: 520px;
+  position: absolute;
+}  
+</style>
+</head>
+<body>
+<div id = "background"></div>
+<div id = "pro"></div>
+<div id = "score"></div> 
+<div id = "gameover">GAME OVER</div>
+<div id = "button">
+    <button onclick="restart()">RESTART</button>
+</div> 
+<div id = "buttonGary">
+    <input type="button" value="Gary" onclick="GarySprite()">
+</div>
+<div id = "buttonCurt">
+    <input type="button" value="Curt" onclick="CurtSprite()">
+</div>
+<div id = "buttonMohan">
+    <input type="button" value="Mohan" onclick="MohanSprite()">
+</div>
+<div id = "buttonCao">
+    <input type="button" value="Paul" onclick="CaoSprite()">
+</div>
+<script>
+
+var pro = new Object();
+pro.element = 'pro';
+pro.x = 250;
+pro.y = 460;
+pro.w = 20;
+pro.h = 20;
+
+var left_key = 37;
+var up_key = 38;
+var right_key = 39;
+var down_key = 40;
+var lastLoopRun = 0;
+var pro_move = 10;
+
+var controller = new Object();
+var enemies = new Array();
+var score = 0;
+
+function restart() {
+    document.location.href = ("");
+}
+
+function createSprite(element, x, y, w, h) {
+    var result = new Object();
+    result.element = element;
+    result.x = x;
+    result.y = y;
+    result.w = w;
+    result.h = h;
+    return result;    
+}
+
+function setLocation(sprite) {
+    var l = document.getElementById(sprite.element);
+    l.style.left = sprite.x + 'px';
+    l.style.top = sprite.y + 'px';
+ }
+
+function spriteShow() {
+    setLocation(pro);
+    for (var i = 0; i < enemies.length; i++) {
+        setLocation(enemies[i]);
+    }
+        var scoreElement = document.getElementById('score');
+        scoreElement.innerHTML = 'SCORE: ' + score; 
+}
+
+function GarySprite() {
+    var element = document.getElementById(pro.element);
+    element.style.background = "url(pics/garyPro.jpg)";
+    }
+function CurtSprite() {
+    var element = document.getElementById(pro.element);
+    element.style.background = "url(pics/curt.jpg)";
+    }
+function MohanSprite() {
+    var element = document.getElementById(pro.element);
+    element.style.background = "url(pics/mohanPro.jpg)";
+    }
+function CaoSprite() {
+    var element = document.getElementById(pro.element);
+    element.style.background = "url(pics/caoPro.jpg)";
+    }
+
+
+function movingPositions() {
+    for (var i = 0; i < enemies.length; i++) {
+        enemies[i].y += 4;
+        enemies[i].x += getRandom(7) - 3;
+    }
+ }
+
+function intersects(a, b) {
+    return a.x < b.x + b.w && a.w + a.x > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
+    }
+
+function GameOver() {
+    var element = document.getElementById(pro.element);
+    element.style.visibility = 'hidden';
+    var element = document.getElementById('gameover');
+    element.style.visibility = 'visible';
+    var element = document.getElementById('score');
+    element.style.visibility = 'hidden';
+    }
+
+function collision() {
+    for (var i = 0; i < enemies.length; i++) {
+        if (intersects(pro, enemies[i])) {
+           GameOver();
+         }
+        else if (enemies[i].y + enemies[i].h >= 500) {
+            var element = document.getElementById(enemies[i].element);
+            element.style.visibility = 'hidden'; 
+            element.parentNode.removeChild(element);
+            enemies.splice(i, 1);
+            i--;
+            score += 1;
+        }
+    }    
+}
+
+
+function Bounds(sprite) {
+   if (sprite.x < 20) {
+       sprite.x = 20;
+ }
+   if (sprite.y < 20) {
+       sprite.y = 20;
+ }
+   if (sprite.x + sprite.w > 480) {
+       sprite.x = 480 - sprite.w;
+ }
+   if (sprite.y + sprite.h > 480) {
+       sprite.y = 480 - sprite.h;
+ }
+}
+
+function keyboard(keyCode, isPressed) {
+     if (keyCode == left_key) {
+       controller.left = isPressed;
+     }
+     if (keyCode == up_key) {
+       controller.up = isPressed;
+     }
+     if (keyCode == right_key) {
+       controller.right = isPressed;
+     }
+     if (keyCode == down_key) {
+       controller.down = isPressed;
+    }
+ }
+
+function handControls()  {
+    if (controller.up) {
+     pro.y -= pro_move; 
+   }
+    if (controller.down) {
+     pro.y += pro_move;
+   }
+    if (controller.left) {
+     pro.x -= pro_move;
+   }
+    if (controller.right) {
+     pro.x += pro_move;     
+   }
+    Bounds(pro);
+ }
+
+
+
+function getRandom(maxSize) {
+    return parseInt(Math.random() * maxSize);
+}
+
+function addEnemy() {
+    if (getRandom(5) == 0) {
+        var elementName = 'enemy' + getRandom(100000000);
+        var enemy = createSprite(elementName, getRandom(450), -40, 35, 35);
+
+        var element = document.createElement('div');
+        element.id = enemy.element;
+        element.className = 'enemy';
+        document.children[0].appendChild(element);
+        enemies[enemies.length] = enemy;
+    }
+ }    
+    
+    
+function gloop() {
+    if (new Date().getTime() - lastLoopRun > 40) {
+        movingPositions();
+        handControls();
+        addEnemy();
+        collision();
+        spriteShow();
+        lastLoopRun = new Date().getTime();
+    }
+        setTimeout('gloop();', 2);
+  }
+    
+
+gloop();
+
+document.onkeydown = function(evt) {
+  keyboard(evt.keyCode, true);
+  };
+document.onkeyup = function(evt) {
+  keyboard(evt.keyCode, false);
+  };   
+
+
+</script>
+</body>
+</html>

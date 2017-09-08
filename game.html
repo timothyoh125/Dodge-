@@ -1,0 +1,81 @@
+<html>
+
+<head>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<style>
+.mole{
+    background-color:rgb(182, 122, 87);
+    background-image:url(gary.jpg);
+    border-radius:100px 100px 0px 0px;
+    background-size:100%;
+    height:100%;
+    width:10%;
+    top:100%;
+    position:absolute;
+    background-repeat:no-repeat;
+    background-position:0% 5% 
+}
+#mole1 {left:10%;}
+#mole2{left:45%;}
+#mole3{left:80%;}
+
+.score{
+    font-family:Monospace;
+    font-size:16vw;
+    position:absolute;
+    right:5%
+    z-index:-1;
+}
+
+
+</style>
+
+<script>
+
+jQuery(document).ready(function(){
+    
+    var add =0;
+    
+    jQuery(".mole").animate({'top':'0%'}, 5000,
+function(){
+    jQuery('.mole').css('top','100%');
+    jQuery('.score').html('GAME OVER');
+    add= add-3;
+    });
+
+    jQuery(".mole").hover(function(){
+
+    jQuery(this).stop().animate({'top':'100%'},
+1000, function(){
+
+    add= add-(-1);
+    jQuery('.score').html('Score:' + add);
+    jQuery(this).css('background-
+image','url(cao.jpg)');
+    jQuery(".mole").animate({'top':'0%'}, 5000,
+function(){
+    jQuery('.mole').css('top','100%');
+    jQuery('.score').html('GAME OVER');
+    add = add-3;
+    });
+   });
+  });
+
+});
+
+</script>
+                       
+</head>
+
+
+<body>  
+<div class="score">Score: 0</div>
+                       
+<div class="mole" id="Gary"></div>
+                   
+</body>
+
+
+
+</html>

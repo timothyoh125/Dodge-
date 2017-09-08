@@ -1,0 +1,107 @@
+<html>
+<style>
+mole1 {
+    background-image:url(gary.jpg);
+    border-radius:100px 100px 0px 0px;
+    background-size:100%;
+    height:100%;
+    width:10%;
+    top:100%;
+    position:absolute;
+    background-repeat:no-repeat;
+    background-position:0% 5% 
+}
+
+mole2 {
+    background-image:url(cao.jpg);
+    border-radius:100px 100px 0px 0px;
+    background-size:100%;
+    height:100%;
+    width:10%;
+    top:100%;
+    position:absolute;
+    background-repeat:no-repeat;
+    background-position:20% 25% 
+}
+
+mole3 {
+    background-image:url(curt.jpg);
+    border-radius:100px 100px 0px 0px;
+    background-size:100%;
+    height:100%;
+    width:10%;
+    top:100%;
+    position:absolute;
+    background-repeat:no-repeat;
+    background-position:30% 35% 
+}
+
+mole4 {
+    background-image:url(mohan.jpg);
+    border-radius:100px 100px 0px 0px;
+    background-size:100%;
+    height:100%;
+    width:10%;
+    top:100%;
+    position:absolute;
+    background-repeat:no-repeat;
+    background-position:10% 15% 
+}
+score{
+    font-family:Monospace;
+    font-size:16vw;
+    position:absolute;
+    right:5%
+    z-index:-1;
+}
+
+
+</style>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+jQuery(document).ready(function(){
+    var add =0;
+    jQuery(".mole").animate{'top':'0%'}, 5000,
+function(){
+    jQuery('.mole').css('top','100%');
+    jQuery('.score').html('GAME OVER');
+    add= add-3
+    });
+
+    jQuery(".mole").hover(function(){
+
+    jQuery(this).css('background-
+image','url(hurt.png)');
+    jQuery(this).stop().animate({'top':'100%'},
+1000, function(){
+
+    add= add-(-1);
+    jQuery('.score').html('Score:' + add);
+    jQuery(this).css('background-
+image','url(gary.jgp)');
+    jQuery(".mole").animate({'top':'0%'}, 5000,
+function(){
+    jQuery('.mole').css('top','100%');
+    jQuery('.mole').css('top','100%');
+    jQuery('.score').html('GAME OVER');
+    add = add-3;
+    });
+   });
+  });
+
+});
+
+</script>
+</head>
+<body>  
+<div class="score">Score: 0</div>
+
+<div class="mole1" id="Gary"></div>
+<div class="mole2" id="Paul"></div>
+<div class="mole3" id="Curt"></div>
+<div class="mole4" id="Mohan"></div>      s                 
+</body>
+
+
+
+</html>
